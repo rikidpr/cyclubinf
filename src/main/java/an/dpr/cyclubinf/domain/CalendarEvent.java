@@ -9,6 +9,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.log4j.Logger;
@@ -22,20 +25,31 @@ import org.apache.log4j.Logger;
 @Entity
 @Table(name = "salidas")
 @XmlRootElement(name = "CalendarEvent")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class CalendarEvent implements Serializable{
     
     private static final long serialVersionUID = -5016580463092316282L;
     private static final Logger log = Logger.getLogger(CalendarEvent.class);
     
+    @XmlElement
     private Long id;
+    @XmlElement
     private Integer num;
+    @XmlElement
     private Date date;
+    @XmlElement
     private String route;
+    @XmlElement
     private String returnRoute;
+    @XmlElement
     private String stop;
+    @XmlElement
     private Float km;
+    @XmlElement
     private Integer elevationGain;
+    @XmlElement
     private String difficulty;
+    @XmlElement
     private String type;
 //    private Orache orache;
     

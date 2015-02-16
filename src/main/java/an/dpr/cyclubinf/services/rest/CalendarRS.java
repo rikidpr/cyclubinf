@@ -11,12 +11,14 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import an.dpr.cyclubinf.bean.CalendarEventList;
 import an.dpr.cyclubinf.dao.CalendarEventDAO;
 import an.dpr.cyclubinf.domain.CalendarEvent;
 import an.dpr.cyclubinf.exception.CyclubinfException;
@@ -28,7 +30,8 @@ public class CalendarRS {
     private CalendarEventDAO calendarDAO;
 
     @GET
-    @Produces("application/json")
+    @Produces(MediaType.APPLICATION_XML)
+//    @Produces(MediaType.APPLICATION_JSON)
     @Path("/get/{id}")
     public Response getActivityInfo(@PathParam("id") String id) {
 	CalendarEvent ca = new CalendarEvent();
@@ -51,7 +54,8 @@ public class CalendarRS {
     }
 
     @GET
-    @Produces("application/json")
+    @Produces(MediaType.APPLICATION_XML)
+//    @Produces(MediaType.APPLICATION_JSON)
     @Path("/nextActivities")
     public Response getNextActivities() {
 	List<CalendarEvent> nextList;
@@ -65,8 +69,10 @@ public class CalendarRS {
 	    log.error("Error getting the next activities", e);
 	    nextList = new ArrayList<CalendarEvent>();
 	}
+	CalendarEventList listado = new CalendarEventList();
+	listado.setList(nextList);
 
-	return Response.ok().entity(nextList).build();
+	return Response.ok().entity(listado).build();
 
     }
 
