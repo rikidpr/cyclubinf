@@ -56,15 +56,19 @@ public class CalendarRS {
     @GET
     @Produces(MediaType.APPLICATION_XML)
 //    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/nextActivities")
-    public Response getNextActivities() {
+    @Path("/nextActivities/{clubId}")
+    public Response getNextActivities(@PathParam("clubId") String clubId) {
 	List<CalendarEvent> nextList;
 	Calendar c = Calendar.getInstance();
 	Date initDate = c.getTime();
 	c.add(Calendar.DAY_OF_YEAR, 7);
 	Date finishDate = c.getTime();
 	try {
-	    nextList = calendarDAO.findByDateBetween(initDate, finishDate);
+	    Long lClubId = Long.valueOf(clubId);
+	    nextList = calendarDAO.findByDateBetween(initDate, finishDate, lClubId);
+	} catch (NumberFormatException e) {
+	    log.error("Error getting the next activities, clubId isn't a number", e);
+	    nextList = new ArrayList<CalendarEvent>();
 	} catch (CyclubinfException e) {
 	    log.error("Error getting the next activities", e);
 	    nextList = new ArrayList<CalendarEvent>();

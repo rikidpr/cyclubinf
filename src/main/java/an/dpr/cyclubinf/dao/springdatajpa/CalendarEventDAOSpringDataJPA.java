@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import an.dpr.cyclubinf.dao.CalendarEventDAO;
 import an.dpr.cyclubinf.domain.CalendarEvent;
+import an.dpr.cyclubinf.domain.Club;
 import an.dpr.cyclubinf.exception.CyclubinfException;
 import an.dpr.cyclubinf.repository.CalendarEventsRepository;
 
@@ -31,7 +32,7 @@ public class CalendarEventDAOSpringDataJPA implements CalendarEventDAO{
 	return repo.findById(id);
     }
 
-    public List<CalendarEvent> findByYear(short year)  throws CyclubinfException {
+    public List<CalendarEvent> findByYear(short year, long clubId)  throws CyclubinfException {
 	Calendar c = Calendar.getInstance();
 	c.set(Calendar.MILLISECOND, 0);
 	c.set(Calendar.SECOND, 0);
@@ -42,10 +43,10 @@ public class CalendarEventDAOSpringDataJPA implements CalendarEventDAO{
 	Date init = c.getTime();
 	c.add(Calendar.YEAR, 1);
 	Date finish = c.getTime();
-	return repo.findByDateBetween(init, finish);
+	return repo.findByDateBetweenAndClub(init, finish, getClub(clubId));
     }
     
-    public List<CalendarEvent> findByMonth(short year, short month)  throws CyclubinfException {
+    public List<CalendarEvent> findByMonth(short year, short month, long clubId)  throws CyclubinfException {
 	Calendar c = Calendar.getInstance();
 	c.set(Calendar.MILLISECOND, 0);
 	c.set(Calendar.SECOND, 0);
@@ -57,26 +58,32 @@ public class CalendarEventDAOSpringDataJPA implements CalendarEventDAO{
 	Date init = c.getTime();
 	c.add(Calendar.MONTH, 1);
 	Date finish = c.getTime();
-	return repo.findByDateBetween(init, finish);
+	return repo.findByDateBetweenAndClub(init, finish,getClub(clubId));
     }
 
-    public List<CalendarEvent> findByDateBetween(Date init, Date finish)  throws CyclubinfException {
+    public List<CalendarEvent> findByDateBetween(Date init, Date finish, long clubId)  throws CyclubinfException {
 	try{
-	    return repo.findByDateBetween(init, finish);
+	    return repo.findByDateBetweenAndClub(init, finish,getClub(clubId));
 	} catch(Exception e){
 	    throw new CyclubinfException("Error finding activities", e);
 	}
     }
+    
+    private Club getClub(long clubId){
+	Club c = new Club();
+	c.setId(clubId);
+	return c;
+    }
 
     @Override
-    public List<CalendarEvent> findNextActivities(Date init) throws CyclubinfException {
+    public List<CalendarEvent> findNextActivities(Date init, long clubId) throws CyclubinfException {
 	Calendar cal = Calendar.getInstance();
 	if (init == null){
 	    init = cal.getTime();
 	}
 	cal.add(Calendar.DAY_OF_YEAR, 7);
 	Date finish = cal.getTime(); 
-	return findByDateBetween(init, finish);
+	return repo.findByDateBetweenAndClub(init, finish,getClub(clubId));
     }
 }
 

@@ -24,7 +24,7 @@ public interface CalendarEventDAO {
      * @return
      * @throws CyclubinfException
      */
-    public List<CalendarEvent> findByYear(short year) throws CyclubinfException;
+    public List<CalendarEvent> findByYear(short year, long clubId) throws CyclubinfException;
     
     /**
      * Find activities by month
@@ -33,7 +33,7 @@ public interface CalendarEventDAO {
      * @return
      * @throws CyclubinfException
      */
-    public List<CalendarEvent> findByMonth(short year, short month) throws CyclubinfException;
+    public List<CalendarEvent> findByMonth(short year, short month, long clubId) throws CyclubinfException;
 
     /**
      * Find activities between two dates
@@ -42,7 +42,7 @@ public interface CalendarEventDAO {
      * @return
      * @throws CyclubinfException
      */
-    public List<CalendarEvent> findByDateBetween(Date init, Date finish) throws CyclubinfException;
+    public List<CalendarEvent> findByDateBetween(Date init, Date finish, long clubId) throws CyclubinfException;
     
     /**
      * Find the next club's activities 
@@ -50,6 +50,6 @@ public interface CalendarEventDAO {
      * @return
      * @throws CyclubinfException
      */
-    public List<CalendarEvent> findNextActivities(Date init) throws CyclubinfException;
+    public List<CalendarEvent> findNextActivities(Date init, long clubId) throws CyclubinfException;
 
 }

@@ -2,12 +2,17 @@ package an.dpr.cyclubinf.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -23,7 +28,7 @@ import org.apache.log4j.Logger;
  *
  */
 @Entity
-@Table(name = "salidas")
+@Table(name = "events")
 @XmlRootElement(name = "CalendarEvent")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CalendarEvent implements Serializable{
@@ -51,6 +56,9 @@ public class CalendarEvent implements Serializable{
     private String difficulty;
     @XmlElement
     private String type;
+    @XmlElement
+    private Club club;
+    private Set<Member> members;
 //    private Orache orache;
     
     @Id
@@ -203,6 +211,24 @@ public class CalendarEvent implements Serializable{
 
     public void setNum(Integer num) {
         this.num = num;
+    }
+
+    @ManyToOne
+    public Club getClub() {
+        return club;
+    }
+
+    public void setClub(Club club) {
+        this.club = club;
+    }
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    public Set<Member> getMembers() {
+        return members;
+    }
+
+    public void setMembers(Set<Member> members) {
+        this.members = members;
     }
 
 }
