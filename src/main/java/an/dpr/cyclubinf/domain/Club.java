@@ -1,10 +1,15 @@
 package an.dpr.cyclubinf.domain;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -25,7 +30,7 @@ public class Club {
 
     @XmlElement private Long id;
     @XmlElement private String name;
-    @XmlElement private String desc;
+    @XmlElement private String descripcion;
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -48,11 +53,12 @@ public class Club {
     }
 
     @Column
-    public String getDesc() {
-	return desc;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setDesc(String desc) {
-	this.desc = desc;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
+
 }
